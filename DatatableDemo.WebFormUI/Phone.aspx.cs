@@ -3,8 +3,6 @@ using DatatableDemo.Business.DependencyResolvers.Ninject;
 using DatatableDemo.Core.Entities.Datatable;
 using System;
 using System.Linq;
-using System.Web;
-using System.Web.Script.Services;
 using System.Web.Services;
 
 namespace DatatableDemo.WebFormUI
@@ -18,22 +16,18 @@ namespace DatatableDemo.WebFormUI
         }
 
         [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = true)]
-        public static object GetData()
-        {   
-            string search = HttpContext.Current.Request.Params["search[value]"];
-            int draw = Convert.ToInt32(HttpContext.Current.Request.Params["draw"]);
-            string order = HttpContext.Current.Request.Params["order[0][column]"];
-            string orderDir = HttpContext.Current.Request.Params["order[0][dir]"];
-            int startRec = Convert.ToInt32(HttpContext.Current.Request.Params["start"]);
-            int pageSize = Convert.ToInt32(HttpContext.Current.Request.Params["length"]);
-
+        public static object GetData(DataTableRequest<Phone> model)
+        {
             var phoneList = _phoneService.GetAll(); 
+            var key = phoneList.Where(x => x.FirstName.ToLower().Contains(model.search.value)).ToList();
+            var draw = model.draw;
+            var start = model.start;
+            var pageSize = model.length;
             
-            int totalRecords = phoneList.Count();
-            int recFilter = phoneList.Count();
+            int totalRecords = key.Count();
+            int recFilter = key.Count();
 
-            var resultList = phoneList.Skip(startRec).Take(pageSize).ToList();
+            var resultList = key.Skip(start).Take(pageSize).ToList();
             var result = new DataTableResponse(draw, resultList, recFilter, totalRecords);
             return result;
         }

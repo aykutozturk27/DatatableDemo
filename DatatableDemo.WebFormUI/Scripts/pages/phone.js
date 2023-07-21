@@ -4,13 +4,16 @@
         phoneTable.DataTable({
             "processing": true,
             "serverSide": true,
+            "searching": true,
+            "ordering": false,
             "ajax": {
                 "url": "Phone.aspx/GetData",
                 "contentType": "application/json",
-                "type": "GET",
+                "type": "POST",
                 "dataType": "JSON",
                 "data": function (d) {
-                    return d;
+                    var result = JSON.stringify({ model: d });
+                    return result;
                 },
                 "dataSrc": function (json) {
                     json.draw = json.d.draw;
@@ -30,15 +33,14 @@
                 }
             ],
             "columns": [
-                { "data": "FirstName", "searchable": true },
-                { "data": "LastName", "searchable": true },
-                { "data": "Message", "searchable": true },
-                { "data": "PhoneNumber", "searchable": true },
-                { "data": "CreatedOn", "searchable": true },
-                { "data": "CreatedBy", "searchable": true }
+                { "data": "FirstName" },
+                { "data": "LastName" },
+                { "data": "Message" },
+                { "data": "PhoneNumber" },
+                { "data": "CreatedOn" },
+                { "data": "CreatedBy" }
             ]
         });
-
     }
 
     var handleEvents = function () {
