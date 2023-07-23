@@ -4,8 +4,6 @@
         phoneTable.DataTable({
             "processing": true,
             "serverSide": true,
-            "searching": true,
-            "ordering": false,
             "ajax": {
                 "url": "Phone.aspx/GetData",
                 "contentType": "application/json",
@@ -33,12 +31,12 @@
                 }
             ],
             "columns": [
-                { "data": "FirstName" },
-                { "data": "LastName" },
-                { "data": "Message" },
-                { "data": "PhoneNumber" },
-                { "data": "CreatedOn" },
-                { "data": "CreatedBy" }
+                { "data": "FirstName", "name": "FirstName" },
+                { "data": "LastName", "name": "LastName" },
+                { "data": "Message", "name": "Message" },
+                { "data": "PhoneNumber", "name": "PhoneNumber" },
+                { "data": "CreatedOn", "name": "CreatedOn" },
+                { "data": "CreatedBy", "name": "CreatedBy" }
             ]
         });
     }
